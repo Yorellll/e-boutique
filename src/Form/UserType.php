@@ -13,7 +13,7 @@ class UserType extends AbstractType
     {
         $builder
             ->add('email')
-            ->add('roles')
+//            ->add('roles') //Commenter pour cause de bug lors de l'affichage / envois du formulaire
             ->add('password')
             ->add('Name')
             ->add('FirstName')
