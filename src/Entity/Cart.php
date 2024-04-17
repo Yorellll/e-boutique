@@ -104,4 +104,16 @@ class Cart
 
         return $this;
     }
+
+    public function updateTotal(): void
+    {
+        $total = 0.0;
+
+        /** @var CartLine $cartLine */
+        foreach ($this->cartLines as $cartLine) {
+            $total += $cartLine->getProduct()->getPriceHT() * $cartLine->getQuantity();
+        }
+
+        $this->setTotal($total);
+    }
 }

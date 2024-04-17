@@ -61,7 +61,7 @@ class CartController extends AbstractController
 
         $cart->addCartLine($cartLine);
 
-//        $cart->updateTotal();
+        $cart->updateTotal();
 
         // Sauvegarder les modifications
         $entityManager->persist($cart);
