@@ -46,6 +46,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: CustomerAdress::class, mappedBy: 'Name')]
     private Collection $customerAdresses;
 
+    #[ORM\OneToOne(mappedBy: 'User', cascade: ['persist', 'remove'])]
+    private ?Cart $cart = null;
+
     public function __construct()
     {
         $this->customerAdresses = new ArrayCollection();
@@ -175,6 +178,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->customerAdresses;
     }
 
+
     public function addCustomerAdress(CustomerAdress $customerAdress): static
     {
         if (!$this->customerAdresses->contains($customerAdress)) {
@@ -193,6 +197,23 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $customerAdress->setName(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getUserCart(): ?Cart
+    {
+        return $this->cart;
+    }
+
+    public function setCart(Cart $cart): static
+    {
+        // set the owning side of the relation if necessary
+        if ($cart->getUser() !== $this) {
+            $cart->setUser($this);
+        }
+
+        $this->cart = $cart;
 
         return $this;
     }

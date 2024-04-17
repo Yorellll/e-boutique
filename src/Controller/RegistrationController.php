@@ -2,8 +2,10 @@
 
 namespace App\Controller;
 
+use App\Entity\Cart;
 use App\Entity\User;
 use App\Form\RegistrationFormType;
+use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -21,8 +23,18 @@ class RegistrationController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $user->setRoles(['ROLE_USER']); //psw de l'admin rootuser
+            $user->setRoles(['ROLE_ADMIN']); //psw de l'admin rootuser
             // encode the plain password
+
+            $cart = new Cart();
+            $dayTime= new DateTime();
+            $cart->setCreationDate($dayTime);
+            $user->setCart($cart);
+            $userCart = new Cart();
+            $userCart = $user->getUserCart();
+            if (!$userCart){
+                error_log("pas de cart");
+            }
             $user->setPassword(
                 $userPasswordHasher->hashPassword(
                     $user,
