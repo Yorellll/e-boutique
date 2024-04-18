@@ -3,16 +3,22 @@
 namespace App\Controller;
 
 use App\Entity\CartLine;
+use App\Entity\CommandLine;
+use App\Entity\Order;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use App\Entity\Cart;
 use App\Entity\Product;
+
 //use App\Form\CartType;
 use App\Entity\User;
 use App\Repository\CartRepository;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use function Webmozart\Assert\Tests\StaticAnalysis\length;
 
 class CartController extends AbstractController
 {
@@ -30,10 +36,15 @@ class CartController extends AbstractController
         $user = $this->getUser(); // Récupérer l'utilisateur connecté
         $cart = $cartRepository->findOneBy(['User' => $user]); // Trouver le panier de l'utilisateur connecté
 
-        return $this->render('cart/index.html.twig', [
-            'controller_name' => 'CartController',
-            'cart' => $cart,
-        ]);
+
+        if ($user) {
+            return $this->render('cart/index.html.twig', [
+                'controller_name' => 'CartController',
+                'cart' => $cart,
+            ]);
+        } else {
+            return $this->redirectToRoute('app_login');
+        }
     }
 
     #[Route('/cart/add/{productId}', name: 'cart_add_product', methods: ['GET', 'POST'])]
@@ -70,23 +81,84 @@ class CartController extends AbstractController
         return $this->redirectToRoute('cart_index');
     }
 
-    #[Route('/cart/remove/{cartLineId}', name: 'cart_remove_product', methods: ['GET', 'POST'])]
-    public function removeFromCart(Request $request, $cartLineId): Response
+    #[Route("/cart/update", name: "update_cart", methods: ['GET', 'POST'])]
+    public function updateCart(Request $request, EntityManagerInterface $entityManager): Response
     {
-        $user = $this->getUser(); // Récupérer l'utilisateur connecté
-        $cart = $user->getUserCart(); // Récupérer le panier de l'utilisateur
+        $user = $this->getUser();
+        $cart = $user->getUserCart();
 
-        // Votre logique pour supprimer un produit du panier ici
-        // Vous pouvez utiliser $cartLineId pour récupérer la ligne de panier à supprimer
+        $productQty = $request->request->get('qty');
+        $productUpdateId = $request->request->get('updateQtt');
+        if ($productUpdateId) {
+            if ($cart === null) {
+                // Page pour dire que le panier est vide qui n'existe pas encore
+                return $this->redirectToRoute('cart_empty');
+            }
 
-        // Sauvegarder les modifications
-        $entityManager = $this->getDoctrine()->getManager();
-        $entityManager->persist($cart);
-        $entityManager->flush();
+            // Parcourir les lignes de panier et mettre à jour les quantités
+            foreach ($cart->getCartLines() as $cartLine) {
+                if ($cartLine->getId() == $productUpdateId) {
+                    $cartLine->setQuantity($productQty);
+                    $entityManager->persist($cartLine);
+                }
+            }
 
-        return $this->redirectToRoute('cart_index');
+            $entityManager->flush();
+
+            return $this->redirectToRoute('cart_index');
+        } else {
+            $productUpdateId = $request->request->get('deleteCartLine');
+            foreach ($cart->getCartLines() as $cartLine) {
+                if ($cartLine->getId() == $productUpdateId) {
+                    if ($cartLine->getCartId() !== $cart) {
+                        throw $this->createAccessDeniedException('La ligne de panier demandée ne fait pas partie de votre panier.');
+                    }
+                    $entityManager->remove($cartLine);
+                    $entityManager->flush();
+                }
+            }
+
+            return $this->redirectToRoute('cart_index');
+        }
+
     }
 
+    #[Route('/cart/command', name: 'commande', methods: ['GET', 'POST'])]
+    public function makeCartOrder(EntityManagerInterface $entityManager, UrlGeneratorInterface $urlGenerator): Response
+    {
+        $user = $this->getUser();
+        $cart = $user->getUserCart();
+
+        $order = new Order();
+        $order->setCart($cart);
+        $orderNumb = $user->getOrders();
+        $date = new \DateTime();
+        $order->setDateTime($date);
+        $order->setOrderNumber(count($orderNumb)+1);
+
+        $order->setValid(true);
+
+        $order->setUser($user);
+
+        foreach ($cart->getCartLines() as $line){
+            $commandLine = new CommandLine();
+            $commandLine->setQuantity($line->getQuantity());
+
+            $product = $line->getProduct();
+            $commandLine->setProductName($product);
+
+            $commandLine->setOrderNumber($order);
+
+            $order->addCommandLine($commandLine);
+            $entityManager->remove($line);
+            $entityManager->persist($commandLine);
+        }
+        $entityManager->persist($order);
+        $entityManager->flush();
+
+
+        return $this->redirectToRoute('order_final',['orderId' => $order->getId()] );
+    }
 
 
 }

@@ -29,6 +29,12 @@ class Cart
     #[ORM\OneToMany(targetEntity: CartLine::class, mappedBy: 'CartId', cascade: ['persist', 'remove'])]
     private Collection $cartLines;
 
+//    #[ORM\OneToOne(targetEntity: Order::class, mappedBy: 'cart')]
+//    private ?Order $order;
+
+    #[ORM\OneToMany(targetEntity: Order::class, mappedBy: 'cart')]
+    private Collection $orders;
+
     public function __construct()
     {
         $this->cartLines = new ArrayCollection();
@@ -115,5 +121,17 @@ class Cart
         }
 
         $this->setTotal($total);
+    }
+
+    public function getOrder(): ?Order
+    {
+        return $this->order;
+    }
+
+    public function setOrder(?Order $order): static
+    {
+        $this->order = $order;
+
+        return $this;
     }
 }

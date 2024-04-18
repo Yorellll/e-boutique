@@ -7,31 +7,31 @@
 
     <table class="table">
         <thead>
-        <tr>
-            <th>Id</th>
-            <th>Name</th>
-            <th>Description</th>
-            <th>Actions</th> <!-- Modifié le nom de la colonne pour correspondre aux actions sur les catégories -->
-        </tr>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>actions</th>
+            </tr>
         </thead>
         <tbody>
-        {% for category in categories %} <!-- Renommé la variable pour correspondre à ce qui est passé depuis le contrôleur -->
+        {% for category in categories %}
             <tr>
                 <td>{{ category.id }}</td>
-                <td>{{ category.name }}</td> <!-- Utilisation de category.name au lieu de product.Name pour correspondre aux attributs de l'entité Category -->
-                <td>{{ category.description }}</td> <!-- Utilisation de category.description au lieu de product.Description pour correspondre aux attributs de l'entité Category -->
+                <td>{{ category.Name }}</td>
+                <td>{{ category.Description }}</td>
                 <td>
-                    <a href="{{ path('app_category_show', {'id': category.id}) }}">show</a> <!-- Modifié le nom de la route pour correspondre à l'affichage des détails d'une catégorie -->
-                    <a href="{{ path('app_category_edit', {'id': category.id}) }}">edit</a> <!-- Modifié le nom de la route pour correspondre à l'édition d'une catégorie -->
+                    <a href="{{ path('app_category_show', {'id': category.id}) }}">show</a>
+                    <a href="{{ path('app_category_edit', {'id': category.id}) }}">edit</a>
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="4">no records found</td> <!-- Modifié le colspan pour correspondre au nombre de colonnes affichées -->
+                <td colspan="4">no records found</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
 
-    <a href="{{ path('app_category_new') }}">Create new</a> <!-- Modifié le nom de la route pour correspondre à la création d'une nouvelle catégorie -->
+    <a href="{{ path('app_category_new') }}">Create new</a>
 {% endblock %}

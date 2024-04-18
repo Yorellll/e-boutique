@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Order index{% endblock %}
+
+{% block body %}
+    <p>Merci pour la commande {{ orders.getOrderNumber() }}</p>
+
+    <form action="{{ path('app_order_index') }}">
+        <button  type="submit">Voir mes commandes</button>
+    </form>
+
+{% endblock %}

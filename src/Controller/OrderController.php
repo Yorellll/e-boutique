@@ -14,16 +14,69 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Route('/order')]
 class OrderController extends AbstractController
 {
-    #[Route('/', name: 'app_order_index', methods: ['GET'])]
-    public function index(OrderRepository $orderRepository): Response
+    #[Route('/', name: 'app_order_index', methods: ['GET', 'POST'])]
+    public function index(OrderRepository $orderRepository, Request $request): Response
     {
-        return $this->render('order/index.html.twig', [
-            'orders' => $orderRepository->findAll(),
+        $user = $this->getUser();// Récupérer l'utilisateur connecté
+
+        if ($user){
+            $cart = $user->getUserCart();
+            if ($cart){
+                return $this->render('order/index.html.twig', [
+                    'orders' => $orderRepository->findAll(),
+                ]);
+            }else{
+                return $this->redirectToRoute('app_login');
+            }
+        }else{
+            return $this->redirectToRoute('app_login');
+        }
+
+    }
+
+    #[Route('/merci', name: 'order_final', methods: ['GET'])]
+    public function final(OrderRepository $orderRepository, Request $request): Response
+    {
+        $user = $this->getUser();
+        $order = $user->getOrders();
+        $orderId = $request->query->get('orderId');
+        $currentOrder = new Order();
+        foreach ($order as $orderTab){
+            if ($orderTab->getId() == $orderId){
+                $currentOrder = $orderTab;
+            }
+        }
+
+        return $this->render('order/thx.html.twig', [
+            'orders' => $currentOrder,
+        ]);
+
+    }
+
+    #[Route('/detail', name: 'order_details', methods: ['GET', 'POST'])]
+    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    {
+
+
+        $user = $this->getUser();
+        $order = $user->getOrders();
+        $orderId = $request->query->get('orderId');
+
+        $currentOrder = new Order();
+        foreach ($order as $orderTab){
+            if ($orderTab->getId() == $orderId){
+                $currentOrder = $orderTab;
+            }
+        }
+
+        return $this->render('order/details.html.twig', [
+            'order' => $currentOrder,
         ]);
     }
 
+
     #[Route('/new', name: 'app_order_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    public function newOrder(Request $request, EntityManagerInterface $entityManager): Response
     {
         $order = new Order();
         $form = $this->createForm(OrderType::class, $order);

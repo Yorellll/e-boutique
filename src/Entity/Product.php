@@ -30,6 +30,13 @@ class Product
     #[ORM\OneToMany(targetEntity: CommandLine::class, mappedBy: 'ProductName')]
     private Collection $commandLines;
 
+//    #[ORM\ManyToOne(targetEntity: Category::class)]
+//    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\ManyToOne(inversedBy: 'Products')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Category $category = null;
+
+
     public function __construct()
     {
         $this->commandLines = new ArrayCollection();
@@ -116,5 +123,15 @@ class Product
         }
 
         return $this;
+    }
+
+    public function getCategory(): ?Category
+    {
+        return $this->category;
+    }
+
+    public function setCategory(?Category $category): void
+    {
+        $this->category = $category;
     }
 }

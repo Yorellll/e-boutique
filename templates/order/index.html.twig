@@ -7,13 +7,13 @@
 
     <table class="table">
         <thead>
-            <tr>
-                <th>Id</th>
-                <th>OrderNumber</th>
-                <th>Valid</th>
-                <th>DateTime</th>
-                <th>actions</th>
-            </tr>
+        <tr>
+            <th>Id</th>
+            <th>OrderNumber</th>
+            <th>Valid</th>
+            <th>DateTime</th>
+            <th>Actions</th>
+        </tr>
         </thead>
         <tbody>
         {% for order in orders %}
@@ -22,10 +22,7 @@
                 <td>{{ order.OrderNumber }}</td>
                 <td>{{ order.Valid ? 'Yes' : 'No' }}</td>
                 <td>{{ order.DateTime ? order.DateTime|date('Y-m-d') : '' }}</td>
-                <td>
-                    <a href="{{ path('app_order_show', {'id': order.id}) }}">show</a>
-                    <a href="{{ path('app_order_edit', {'id': order.id}) }}">edit</a>
-                </td>
+                <td><a href="{{ path('order_details', {'orderId': order.id}) }}">Voir le détail</a></td>
             </tr>
         {% else %}
             <tr>
@@ -34,6 +31,4 @@
         {% endfor %}
         </tbody>
     </table>
-
-    <a href="{{ path('app_order_new') }}">Create new</a>
 {% endblock %}

@@ -3,18 +3,54 @@
 {% block title %}Hello CartController!{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+    <style>
+        .example-wrapper {
+            margin: 1em auto;
+            max-width: 800px;
+            width: 95%;
+            font: 18px/1.5 sans-serif;
+        }
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+        .example-wrapper code {
+            background: #F5F5F5;
+            padding: 2px 6px;
+        }
+    </style>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code>C:/Users/Yorelll/Documents/Projet/PHP/Symfony/E-Commerce/src/Controller/CartController.php</code></li>
-        <li>Your template at <code>C:/Users/Yorelll/Documents/Projet/PHP/Symfony/E-Commerce/templates/cart/index.html.twig</code></li>
-    </ul>
-</div>
+    <form action="{{ path("update_cart") }}" method="post">
+        <div class="example-wrapper">
+            {% if cart.getCartLines()|length == 0 %}
+                <p>Votre panier est vide</p>
+            {% else %}
+                <table>
+                    <tbody>
+                    {% set totalCart = 0 %}
+                    {% for cartLine in cart.getCartLines() %}
+                        <tr>
+                            <td>{{ cartLine.product.name }}</td>
+                            <td>{{ cartLine.product.priceHT }} €</td>
+                            <td>Total: {{ cartLine.product.priceHT * cartLine.quantity }} €</td>
+                            {% set totalCart = totalCart + cartLine.product.priceHT * cartLine.quantity %}
+                            {% set valeur = cartLine.quantity %}
+                            <td>Quantité : <input type="number" name="qty" value="{{ valeur }}"></td>
+                            <td>
+                                <button type="submit" name="updateQtt" value="{{ cartLine.id }}">Mettre à jour</button>
+                            </td>
+                            <td>
+                                <button type="submit" name="deleteCartLine" value="{{ cartLine.id }}">Supprimer</button>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+                <p>Total panier : {{ totalCart }} €</p>
+            {% endif %}
+        </div>
+    </form>
+    {% if cart.getCartLines()|length > 0 %}
+        <form action="{{ path("commande") }}">
+            <button type="submit">Commander</button>
+        </form>
+    {% endif %}
+
 {% endblock %}

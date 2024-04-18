@@ -23,7 +23,7 @@ class RegistrationController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $user->setRoles(['ROLE_ADMIN']); //psw de l'admin rootuser
+            $user->setRoles(['ROLE_USER']); //psw de l'admin rootuser
             // encode the plain password
 
             $cart = new Cart();

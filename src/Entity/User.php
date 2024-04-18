@@ -43,15 +43,33 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 25, nullable: true)]
     private ?string $Phone = null;
 
-    #[ORM\OneToMany(targetEntity: CustomerAdress::class, mappedBy: 'Name')]
-    private Collection $customerAdresses;
+    #[ORM\Column(length: 10)]
+    private ?string $CodePostal = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $Ville = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $Adresse = null;
+
+    #[ORM\OneToMany(targetEntity: Order::class, mappedBy: 'user')]
+    private Collection $orders;
+
 
     #[ORM\OneToOne(mappedBy: 'User', cascade: ['persist', 'remove'])]
     private ?Cart $cart = null;
 
     public function __construct()
     {
-        $this->customerAdresses = new ArrayCollection();
+        $this->orders = new ArrayCollection();
+    }
+
+    /**
+     * @return Collection<int, Order>
+     */
+    public function getOrders(): Collection
+    {
+        return $this->orders;
     }
 
     public function getId(): ?int
@@ -170,34 +188,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    /**
-     * @return Collection<int, CustomerAdress>
-     */
-    public function getCustomerAdresses(): Collection
+    public function getCodePostal(): ?string
     {
-        return $this->customerAdresses;
+        return $this->CodePostal;
     }
 
-
-    public function addCustomerAdress(CustomerAdress $customerAdress): static
+    public function setCodePostal($code_postal): static
     {
-        if (!$this->customerAdresses->contains($customerAdress)) {
-            $this->customerAdresses->add($customerAdress);
-            $customerAdress->setName($this);
-        }
-
+        $this->CodePostal = $code_postal;
         return $this;
     }
 
-    public function removeCustomerAdress(CustomerAdress $customerAdress): static
+    public function getVille(): ?string
     {
-        if ($this->customerAdresses->removeElement($customerAdress)) {
-            // set the owning side to null (unless already changed)
-            if ($customerAdress->getName() === $this) {
-                $customerAdress->setName(null);
-            }
-        }
+        return $this->Ville;
+    }
 
+    public function setVille($ville): static
+    {
+        $this->Ville = $ville;
+        return $this;
+    }
+
+    public function getAdresse(): ?string
+    {
+        return $this->Adresse;
+    }
+
+    public function setAdresse($adresse): static
+    {
+        $this->Adresse = $adresse;
         return $this;
     }
 
@@ -214,6 +234,28 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         }
 
         $this->cart = $cart;
+
+        return $this;
+    }
+
+    public function addOrder(Order $order): static
+    {
+        if (!$this->orders->contains($order)) {
+            $this->orders->add($order);
+            $order->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOrder(Order $order): static
+    {
+        if ($this->orders->removeElement($order)) {
+            // set the owning side to null (unless already changed)
+            if ($order->getUser() === $this) {
+                $order->setUser(null);
+            }
+        }
 
         return $this;
     }

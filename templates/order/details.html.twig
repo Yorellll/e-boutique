@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Order index{% endblock %}
+
+{% block body %}
+{#    <p>Détails de la commande n°{{ order.getOrderNumber() }}</p>#}
+{#    <tr>#}
+{#    {% for commandLine in order.getCommandLines() %}#}
+{#        {% set product = order.getProductName() %}#}
+{#        {% set productName = product.getName() %}#}
+{#        <td>Quantité : {{ commandLine.getQuantity() }}</td>#}
+{#        <td>Nom : {{ productName }}</td>#}
+{#    {% endfor %}#}
+{#    </tr>#}
+
+    <p>Détails de la commande n°{{ order.getOrderNumber() }}</p>
+    <table>
+        <tr>
+            <th>Quantité</th>
+            <th>Nom du produit</th>
+            <th>Prix unitaire</th>
+            <th>Prix de la ligne</th>
+            <th>Cout de livraison</th>
+        </tr>
+        {% set prixTotal = 0 %}
+        {% for commandLine in order.getCommandLines() %}
+            <tr>
+                <td>{{ commandLine.getQuantity() }}</td>
+                <td>{{ commandLine.getProductName().getName() }}</td>
+                <td>{{ commandLine.getProductName().getPriceHT() }}</td>
+                <td>{{ commandLine.getProductName().getPriceHT() * commandLine.getQuantity()}}</td>
+                {% set prixTotal = prixTotal + commandLine.getProductName().getPriceHT() * commandLine.getQuantity() %}
+                <td>Gratuit</td>
+            </tr>
+        {% endfor %}
+    </table>
+    <p>Total : {{ prixTotal }}€</p>
+
+
+{% endblock %}
