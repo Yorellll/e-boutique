@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier mon profil{% endblock %}
+
+{% block dynamic_era %}
+    <div class="container">
+        <h1 class="mt-4 mb-4">Modifier mon profil</h1>
+
+        {{ form_start(form) }}
+         <div class="mb-3">
+            {{ form_label(form.email, 'Email') }}
+            {{ form_widget(form.email, {'attr': {'class': 'form-control'}}) }}
+        </div>
+        <div class="mb-3">
+            {{ form_label(form.password, 'Password') }}
+            {{ form_widget(form.password, {'attr': {'class': 'form-control'}}) }}
+        </div>
+        <div class="mb-3">
+            {{ form_label(form.Name, 'Nom') }}
+            {{ form_widget(form.Name, {'attr': {'class': 'form-control'}}) }}
+        </div>
+        <div class="mb-3">
+            {{ form_label(form.FirstName, 'Prénom') }}
+            {{ form_widget(form.FirstName, {'attr': {'class': 'form-control'}}) }}
+        </div>
+       
+        <div class="mb-3">
+            {{ form_label(form.Phone, 'Téléphone') }}
+            {{ form_widget(form.Phone, {'attr': {'class': 'form-control'}}) }}
+        </div>
+         <div class="mb-3">
+            {{ form_label(form.codePostal, 'Code Postal') }}
+            {{ form_widget(form.codePostal, {'attr': {'class': 'form-control'}}) }}
+        </div> 
+         <div class="mb-3">
+            {{ form_label(form.Ville, 'Ville') }}
+            {{ form_widget(form.Ville, {'attr': {'class': 'form-control'}}) }}
+        </div> 
+         <div class="mb-3">
+            {{ form_label(form.Adresse, 'Adresse') }}
+            {{ form_widget(form.Adresse, {'attr': {'class': 'form-control'}}) }}
+        </div> 
+        <button type="submit" class="btn btn-primary">Enregistrer</button>
+        {{ form_end(form) }}
+    </div>
+{% endblock %}

@@ -1,45 +1,63 @@
-{#{% extends 'base.html.twig' %}#}
+{% block dynamic_era %}
+    <div class="container mt-5 mb-4">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card shadow">
+                    <div class="card-body">
+                        <h1 class="card-title text-center mb-4">Inscription</h1>
 
-{#{% block title %}Register{% endblock %}#}
+                        {{ form_errors(form) }}
 
-{#{% block body %}#}
-{#    <h1>Register</h1>#}
+                        {{ form_start(form, {'attr': {'class': 'needs-validation', 'novalidate': 'novalidate'}}) }}
+                        
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                {{ form_row(form.Name, {'attr': {'class': 'form-control', 'placeholder': 'Nom'}}) }}
+                            </div>
+                            <div class="col-md-6">
+                                {{ form_row(form.FirstName, {'attr': {'class': 'form-control', 'placeholder': 'Prénom'}}) }}
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            {{ form_row(form.Phone, {'attr': {'class': 'form-control', 'placeholder': 'Téléphone'}}) }}
+                        </div>
 
-{#    {{ form_errors(registrationForm) }}#}
+                        <div class="mb-3">
+                            {{ form_row(form.email, {'attr': {'class': 'form-control', 'placeholder': 'Email'}}) }}
+                        </div>
 
-{#    {{ form_start(registrationForm) }}#}
-{#        {{ form_row(registrationForm.email) }}#}
-{#        {{ form_row(registrationForm.plainPassword, {#}
-{#            label: 'Password'#}
-{#        }) }}#}
-{#        {{ form_row(registrationForm.agreeTerms) }}#}
+                        <div class="mb-3">
+                            {{ form_row(form.plainPassword, {'attr': {'class': 'form-control', 'placeholder': 'Mot de passe'}}) }}
+                        </div>
 
-{#        <button type="submit" class="btn">Register</button>#}
-{#    {{ form_end(registrationForm) }}#}
-{#{% endblock %}#}
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                {{ form_row(form.Ville, {'attr': {'class': 'form-control', 'placeholder': 'Ville'}}) }}
+                            </div>
+                            <div class="col-md-6">
+                                {{ form_row(form.CodePostal, {'attr': {'class': 'form-control', 'placeholder': 'Code postal'}}) }}
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            {{ form_row(form.Adresse, {'attr': {'class': 'form-control', 'placeholder': 'Adresse'}}) }}
+                        </div>
 
-{% extends 'base.html.twig' %}
+                        <div class="form-check mb-3">
+                            {{ form_row(form.agreeTerms, {'label_attr': {'class': 'form-check-label'}, 'attr': {'class': 'form-check-input'}}) }}
+                            <label class="form-check-label" for="{{ form.agreeTerms.vars.id }}">Accepter les termes</label>
+                        </div>
 
-{% block title %}Inscription{% endblock %}
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary">S'inscrire</button>
+                        </div>
 
-{% block body %}
-    <h1>Inscription</h1>
-
-    {{ form_errors(form) }}
-
-    {{ form_start(form) }}
-    {{ form_row(form.Name) }}
-    {{ form_row(form.FirstName) }}
-    {{ form_row(form.Phone) }}
-    {{ form_row(form.email) }}
-    {{ form_row(form.plainPassword, {
-        label: 'Mot de passe'
-    }) }}
-    {{ form_row(form.agreeTerms) }}
-    {{ form_row(form.Ville) }}
-    {{ form_row(form.CodePostal) }}
-    {{ form_row(form.Adresse) }}
-
-    <button type="submit" class="btn">S'inscrire</button>
-    {{ form_end(form) }}
+                        {{ form_end(form) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+>>>>>>> 96faa7d0ea622c16468e598c2a116b7d12bdd1e1
 {% endblock %}

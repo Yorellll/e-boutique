@@ -1,12 +1,35 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Order index{% endblock %}
+{% block title %}Remerciements{% endblock %}
 
-{% block body %}
-    <p>Merci pour la commande {{ orders.getOrderNumber() }}</p>
-
-    <form action="{{ path('app_order_index') }}">
-        <button  type="submit">Voir mes commandes</button>
-    </form>
-
+{% block admin %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 offset-md-2 text-center">
+                <div class="alert alert-success mt-5" role="alert">
+                    <h1>Merci pour votre commande !</h1>
+                    <p>Votre numéro de commande est : <strong>{{ orders.getOrderNumber() }}</strong></p>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-4">
+            <div class="col-md-8 offset-md-2 text-center">
+                <h3>Thank You</h3>
+                <ul class="list-unstyled">
+                    <li>Merci </li>
+                    <li>Gracias </li>
+                    <li>Danke </li>
+                    <li>Grazie</li>
+                    <li>Obrigado</li>
+                </ul>
+            </div>
+        </div>
+        <div class="row mt-4">
+            <div class="col-md-8 offset-md-2 text-center">
+                <form action="{{ path('app_order_index') }}" method="GET">
+                    <button type="submit" class=" mb-4 btn btn-outline-dark">Voir mes commandes</button>
+                </form>
+            </div>
+        </div>
+    </div>
 {% endblock %}

@@ -2,7 +2,7 @@
 
 {% block title %}Product index{% endblock %}
 
-{% block body %}
+{% block admin %}
     <h1>Product index</h1>
 
     <table class="table">
@@ -13,6 +13,7 @@
                 <th>Description</th>
                 <th>PriceHT</th>
                 <th>Available</th>
+                <th>Image</th> {# Ajout de cette colonne pour l'image #}
                 <th>actions</th>
             </tr>
         </thead>
@@ -25,17 +26,24 @@
                 <td>{{ product.PriceHT }}</td>
                 <td>{{ product.Available ? 'Yes' : 'No' }}</td>
                 <td>
+                    {% if product.img %}
+                        <img src="{{ asset('uploads/' ~ product.img) }}" alt="{{ product.Name }}" style="max-width: 100px;">
+                    {% else %}
+                        No image
+                    {% endif %}
+                </td>
+                <td>
                     <a href="{{ path('app_product_show', {'id': product.id}) }}">show</a>
                     <a href="{{ path('app_product_edit', {'id': product.id}) }}">edit</a>
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="6">no records found</td>
+                <td colspan="7">no records found</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
 
-    <a href="{{ path('app_product_new') }}">Create new</a>
+    <a href="{{ path('app_product_new') }}">Create new</a> 
 {% endblock %}
