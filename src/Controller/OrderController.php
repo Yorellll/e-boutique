@@ -20,7 +20,7 @@ class OrderController extends AbstractController
 {
 
     #[Route('/', name: 'app_order_index', methods: ['GET', 'POST'])]
-    public function index(OrderRepository $orderRepository, Request $request,CartRepository $cartRepository,CategoryRepository $categoryRepository): Response
+    public function index(CategoryRepository $categoryRepository): Response
     {
         $user = $this->getUser();
         $order = $user->getOrders();
@@ -31,6 +31,7 @@ class OrderController extends AbstractController
                 $cartItemCount = 0;
                 return $this->render('order/index.html.twig', [
                     'orders' => $order,
+
                     'cartItemCount' => $cartItemCount,
                     'categories' => $categoryRepository->findAll(),
                 ]);
@@ -46,7 +47,7 @@ class OrderController extends AbstractController
     
 
     #[Route('/merci', name: 'order_final', methods: ['GET'])]
-    public function final(OrderRepository $orderRepository, Request $request, CartRepository $cartRepository,CategoryRepository $categoryRepository): Response
+    public function final(Request $request, CartRepository $cartRepository,CategoryRepository $categoryRepository): Response
     {
         $user = $this->getUser();
         $order = $user->getOrders();
@@ -76,7 +77,7 @@ class OrderController extends AbstractController
     }
 
     #[Route('/detail', name: 'order_details', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager,CategoryRepository $categoryRepository, CartRepository $cartRepository): Response
+    public function new(Request $request,CategoryRepository $categoryRepository, CartRepository $cartRepository): Response
     {
 
         $user = $this->getUser();

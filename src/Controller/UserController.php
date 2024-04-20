@@ -56,6 +56,7 @@ class UserController extends AbstractController
         }
 
         if ($form->isSubmitted() && $form->isValid()) {
+
             $entityManager->persist($user);
             $entityManager->flush();
 
@@ -89,12 +90,15 @@ class UserController extends AbstractController
     }
 
     #[Route('/admin/{id}/edit', name: 'app_user_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, User $user, EntityManagerInterface $entityManager, CartRepository $cartRepository,CategoryRepository $categoryRepository): Response
+    public function edit(Request $request, User $user, EntityManagerInterface $entityManager, CartRepository $cartRepository,CategoryRepository $categoryRepository, UserPasswordHasherInterface $userPasswordHasher): Response
     {
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $hashedPassword = $userPasswordHasher->hashPassword($user,
+                $user->getPassword());
+            $user->setPassword($hashedPassword);
             $entityManager->flush();
 
             return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);

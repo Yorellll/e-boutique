@@ -28,7 +28,6 @@ class RegistrationController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $user->setRoles(['ROLE_USER']); //psw de l'admin rootuser
-            // encode the plain password
 
             $cart = new Cart();
             $dayTime= new DateTime();
@@ -48,7 +47,6 @@ class RegistrationController extends AbstractController
 
             $entityManager->persist($user);
             $entityManager->flush();
-            // do anything else you need here, like send an email
 
             return $this->redirectToRoute('app_default');
         }
@@ -63,7 +61,7 @@ class RegistrationController extends AbstractController
         return $this->render('registration/register.html.twig', [
             'form' => $form,
             'cartItemCount' => $cartItemCount,
-            'categories' => $categoryRepository->findAll(),
+            'categories' => $categoryRepository->findAll()
         ]);
     }
 }
