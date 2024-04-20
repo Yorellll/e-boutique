@@ -15,15 +15,16 @@ use Symfony\Component\Routing\Attribute\Route;
 class OrderController extends AbstractController
 {
     #[Route('/', name: 'app_order_index', methods: ['GET', 'POST'])]
-    public function index(OrderRepository $orderRepository, Request $request): Response
+    public function index(): Response
     {
-        $user = $this->getUser();// Récupérer l'utilisateur connecté
+        $user = $this->getUser();
+        $order = $user->getOrders();
 
         if ($user){
             $cart = $user->getUserCart();
             if ($cart){
                 return $this->render('order/index.html.twig', [
-                    'orders' => $orderRepository->findAll(),
+                    'orders' => $order,
                 ]);
             }else{
                 return $this->redirectToRoute('app_login');
