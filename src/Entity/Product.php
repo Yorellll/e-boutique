@@ -27,8 +27,18 @@ class Product
     #[ORM\Column]
     private ?bool $Available = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?string $img = null;
+
     #[ORM\OneToMany(targetEntity: CommandLine::class, mappedBy: 'ProductName')]
     private Collection $commandLines;
+
+    //    #[ORM\ManyToOne(targetEntity: Category::class)]
+    //    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\ManyToOne(inversedBy: 'Products')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Category $category = null;
+
 
     public function __construct()
     {
@@ -88,6 +98,17 @@ class Product
         return $this;
     }
 
+    public function getImg(): ?string
+    {
+        return $this->img;
+    }
+
+    public function setImg(?string $img): static
+    {
+        $this->img = $img;
+        return $this;
+    }
+
     /**
      * @return Collection<int, CommandLine>
      */
@@ -116,5 +137,15 @@ class Product
         }
 
         return $this;
+    }
+
+    public function getCategory(): ?Category
+    {
+        return $this->category;
+    }
+
+    public function setCategory(?Category $category): void
+    {
+        $this->category = $category;
     }
 }

@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon Compte{% endblock %}
+
+{% block dynamic_era %}
+
+    <div class="container">
+        <h1 class="mt-4 mb-4">Mon Compte</h1>
+
+        {% if app.user %}
+            {% if is_granted('ROLE_ADMIN') %}
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h3 class="card-title">Espace admin :</h3>
+                  <p><a href="{{ path('app_category_index') }}">Gérer les catégories</a></p> 
+                   <p><a href="{{ path('app_product_index') }}">Gérer les produits</a></p> 
+                   <p><a href="{{ path('app_user_index') }}">Gérer les users</a></p> 
+                </div>
+            </div>
+            {% endif %}
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h3 class="card-title">Mes informations :</h3>
+                    <p><strong>Nom :</strong> {{ app.user.name }}</p>
+                    <p><strong>Prénom :</strong> {{ app.user.firstName }}</p>
+                    <p><strong>Email :</strong> {{ app.user.email }}</p>
+                    <p><strong>Téléphone :</strong> {{ app.user.phone }}</p>
+                    <p><strong>Code Postal :</strong> {{ app.user.codePostal }}</p>
+                    <p><strong>Ville :</strong> {{ app.user.ville }}</p>
+                    <p><strong>Adresse :</strong> {{ app.user.adresse }}</p>
+                </div>
+            </div>
+
+            <a href="{{ path('app_user_profile_edit') }}" class="btn btn-outline-dark mb-4">Modifier mon profil</a>
+
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h3 class="card-title">Mes commandes :</h3>
+                    <a href="{{ path('app_order_index') }}" class="btn btn-outline-dark mb-4">Voir toutes mes commandes</a>
+
+                </div>
+            </div>
+        {% else %}
+            <p>Vous devez être connecté pour accéder à cette page.</p>
+        {% endif %}
+    </div>
+{% endblock %}

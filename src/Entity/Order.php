@@ -29,6 +29,18 @@ class Order
     #[ORM\OneToMany(targetEntity: CommandLine::class, mappedBy: 'OrderNumber')]
     private Collection $commandLines;
 
+    #[ORM\ManyToOne(targetEntity: User::class)]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $user;
+
+//    #[ORM\OneToOne(targetEntity: Cart::class)]
+//    #[ORM\JoinColumn(nullable: false)]
+//    private ?Cart $cart;
+
+    #[ORM\ManyToOne(targetEntity: Cart::class)]
+    #[ORM\JoinColumn(name: "cart_id", referencedColumnName: "id", nullable: false)]
+    private ?Cart $cart;
+
     public function __construct()
     {
         $this->commandLines = new ArrayCollection();
@@ -101,6 +113,30 @@ class Order
                 $commandLine->setOrderNumber(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): static
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    public function getCart(): ?Cart
+    {
+        return $this->cart;
+    }
+
+    public function setCart(?Cart $cart): static
+    {
+        $this->cart = $cart;
 
         return $this;
     }

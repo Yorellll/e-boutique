@@ -2,27 +2,27 @@
 
 namespace App\Repository;
 
-use App\Entity\CustomerAdress;
+use App\Entity\CartLine;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<CustomerAdress>
+ * @extends ServiceEntityRepository<CartLine>
  *
- * @method CustomerAdress|null find($id, $lockMode = null, $lockVersion = null)
- * @method CustomerAdress|null findOneBy(array $criteria, array $orderBy = null)
- * @method CustomerAdress[]    findAll()
- * @method CustomerAdress[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method CartLine|null find($id, $lockMode = null, $lockVersion = null)
+ * @method CartLine|null findOneBy(array $criteria, array $orderBy = null)
+ * @method CartLine[]    findAll()
+ * @method CartLine[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class CustomerAdressRepository extends ServiceEntityRepository
+class CartLineRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, CustomerAdress::class);
+        parent::__construct($registry, CartLine::class);
     }
 
     //    /**
-    //     * @return CustomerAdress[] Returns an array of CustomerAdress objects
+    //     * @return CartLine[] Returns an array of CartLine objects
     //     */
     //    public function findByExampleField($value): array
     //    {
@@ -36,7 +36,7 @@ class CustomerAdressRepository extends ServiceEntityRepository
     //        ;
     //    }
 
-    //    public function findOneBySomeField($value): ?CustomerAdress
+    //    public function findOneBySomeField($value): ?CartLine
     //    {
     //        return $this->createQueryBuilder('c')
     //            ->andWhere('c.exampleField = :val')

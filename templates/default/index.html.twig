@@ -1,20 +1,108 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Home{% endblock %}
+{% block title %}Home
+{% endblock %}
 
-{% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+{% block home %}
+	<!-- Header-->
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+	<div id="carouselExampleAutoplaying" class="carousel slide" data-bs-ride="carousel">
+		<div class="carousel-inner">
+			<div class="carousel-item active">
+				<img src="/img/paysage1.jpg" class="d-block w-100" alt="..." width="1000" height="400">
+			</div>
+			<div class="carousel-item">
+				<img src="/img/paysage2.jpg" class="d-block w-100" alt="..." width="1000" height="400">
+			</div>
+			<div class="carousel-item">
+				<img src="/img/paysage3.jpg" class="d-block w-100" alt="..." width="1000" height="400">
+			</div>
+		</div>
+		<button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="prev">
+			<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+			<span class="visually-hidden">Previous</span>
+		</button>
+		<button class="carousel-control-next" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="next">
+			<span class="carousel-control-next-icon" aria-hidden="true"></span>
+			<span class="visually-hidden">Next</span>
+		</button>
+	</div>
+	<header class="bg-dark py-5 ">
+		<div class="container px-4 px-lg-5 my-5">
+			<div class="text-center text-white">
+				<h1 class="display-4 fw-bolder">Vos plus belles expériences</h1>
+				<p class="lead fw-normal text-white-50 mb-0">à prix défiant toute concurence</p>
+			</div>
+		</div>
+	</header>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code>C:/Users/Yorelll/Documents/Projet/PHP/Symfony/E-Commerce/src/Controller/DefaultController.php</code></li>
-        <li>Your template at <code>C:/Users/Yorelll/Documents/Projet/PHP/Symfony/E-Commerce/templates/default/index.html.twig</code></li>
-    </ul>
-</div>
+	{# TEST TEST TEST #}
+	<section class="page-section ">
+		<div class="container">
+			<div class="product-item">
+				<div class="product-item-title d-flex">
+					<div class="bg-dark p-5 d-flex me-auto rounded text-white">
+						<h2 class="section-heading mb-0">
+							<span class="section-heading-upper">Zoom sur notre dernière offre :
+							</span>
+							<span class="section-heading-lower">{{lastProduct.name}}</span>
+						</h2>
+					</div>
+				</div>
+				<img class="product-item-img mx-auto d-flex rounded img-fluid mb-3 mb-lg-0" src="/uploads/{{ lastProduct.img }}" alt="..."/>
+				<div class="product-item-description d-flex ms-auto">
+					<div class="bg-dark p-5 rounded text-white">
+						<p class="mb-0">{{lastProduct.Description}}</p>
+						<p class="mt-2 fw-bold"> Prix HT : {{lastProduct.priceHT}}€</p>
+						<a class="btn btn-outline-light mt-4 text-white" href="/cart/add/{{lastProduct.id}}">Ajouter au panier</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<!--- section infos !-->
+	<div class="container mt-5">
+		<div
+			class="row">
+			<!-- Colonne 1 : Paiement jusqu'à 4x sans frais -->
+			<div class="col-md-3 mb-4">
+				<div class="text-center mb-3">
+					<i class="bi bi-cash-stack icon-large"></i>
+					<!-- Icone pour le paiement en 4x -->
+				</div>
+				<h4 class="text-center">Paiement jusqu'à 4x sans frais</h4>
+				<p>Payez en toute tranquillité avec notre option de paiement échelonné sans frais supplémentaires.</p>
+			</div>
+
+			<!-- Colonne 2 : Service client 24/7 -->
+			<div class="col-md-3 mb-4">
+				<div class="text-center mb-3">
+					<i class="bi bi-headset icon-large"></i>
+					<!-- Icone pour le service client 24/7 -->
+				</div>
+				<h4 class="text-center">Service client 24/7</h4>
+				<p>Notre équipe est disponible à tout moment pour répondre à vos questions et vous assister.</p>
+			</div>
+			<!-- Colonne 3 : Assurance voyage incluse -->
+			<div class="col-md-3 mb-4">
+				<div class="text-center mb-3">
+					<i class="bi bi-shield-check icon-large"></i>
+					<!-- Icone pour l'assurance voyage -->
+				</div>
+				<h4 class="text-center">Assurance voyage incluse</h4>
+				<p>Profitez d'une assurance voyage incluse dans nos forfaits pour une tranquillité d'esprit totale.</p>
+			</div>
+			<!-- Colonne 4 : Garantie de remboursement flexible -->
+			<div class="col-md-3 mb-4">
+				<div class="text-center mb-3">
+					<i class="bi bi-currency-exchange icon-large"></i>
+					<!-- Icone pour la garantie de remboursement -->
+				</div>
+				<h4 class="text-center">Garantie de remboursement flexible</h4>
+				<p>Bénéficiez de notre politique de remboursement flexible pour modifier ou annuler vos réservations en toute simplicité.</p>
+			</div>
+		</div>
+	</div>
+
+
 {% endblock %}

@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Produits de la Catégorie{{ parent() }}{% endblock %}
+
+{% block admin %}
+    <h1>Produits de la Catégorie "{{ categ.Name }}"</h1>
+
+    <ul>
+        {% for product in products %}
+            <li>{{ product.Name }} - {{ product.Description }} - {{ product.PriceHT }} €</li>
+        {% else %}
+            <li>Aucun produit disponible dans cette catégorie.</li>
+        {% endfor %}
+    </ul>
+
+    <a href="{{ path('app_category_index') }}">Retour aux catégories</a>
+{% endblock %}

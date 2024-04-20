@@ -1,19 +1,66 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Register{% endblock %}
+{% block title %}Inscription{% endblock %}
 
-{% block body %}
-    <h1>Register</h1>
+{% block dynamic_era %}
+    <div class="container mt-5 mb-4">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card shadow">
+                    <div class="card-body">
+                        <h1 class="card-title text-center mb-4">Inscription</h1>
 
-    {{ form_errors(registrationForm) }}
+                        {{ form_errors(form) }}
 
-    {{ form_start(registrationForm) }}
-        {{ form_row(registrationForm.email) }}
-        {{ form_row(registrationForm.plainPassword, {
-            label: 'Password'
-        }) }}
-        {{ form_row(registrationForm.agreeTerms) }}
+                        {{ form_start(form, {'attr': {'class': 'needs-validation', 'novalidate': 'novalidate'}}) }}
+                        
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                {{ form_row(form.Name, {'attr': {'class': 'form-control', 'placeholder': 'Nom'}}) }}
+                            </div>
+                            <div class="col-md-6">
+                                {{ form_row(form.FirstName, {'attr': {'class': 'form-control', 'placeholder': 'Prénom'}}) }}
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            {{ form_row(form.Phone, {'attr': {'class': 'form-control', 'placeholder': 'Téléphone'}}) }}
+                        </div>
 
-        <button type="submit" class="btn">Register</button>
-    {{ form_end(registrationForm) }}
+                        <div class="mb-3">
+                            {{ form_row(form.email, {'attr': {'class': 'form-control', 'placeholder': 'Email'}}) }}
+                        </div>
+
+                        <div class="mb-3">
+                            {{ form_row(form.plainPassword, {'attr': {'class': 'form-control', 'placeholder': 'Mot de passe'}}) }}
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                {{ form_row(form.Ville, {'attr': {'class': 'form-control', 'placeholder': 'Ville'}}) }}
+                            </div>
+                            <div class="col-md-6">
+                                {{ form_row(form.CodePostal, {'attr': {'class': 'form-control', 'placeholder': 'Code postal'}}) }}
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            {{ form_row(form.Adresse, {'attr': {'class': 'form-control', 'placeholder': 'Adresse'}}) }}
+                        </div>
+
+                        <div class="form-check mb-3">
+                            {{ form_row(form.agreeTerms, {'label_attr': {'class': 'form-check-label'}, 'attr': {'class': 'form-check-input'}}) }}
+                            <label class="form-check-label" for="{{ form.agreeTerms.vars.id }}">Accepter les termes</label>
+                        </div>
+
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary">S'inscrire</button>
+                        </div>
+
+                        {{ form_end(form) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}
