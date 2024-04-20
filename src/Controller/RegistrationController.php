@@ -12,11 +12,15 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
+use App\Repository\CartRepository;
+use App\Repository\CategoryRepository;
+
+
 
 class RegistrationController extends AbstractController
 {
     #[Route('/register', name: 'app_register')]
-    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
+    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager,CartRepository $cartRepository,CategoryRepository $categoryRepository): Response
     {
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
@@ -48,9 +52,18 @@ class RegistrationController extends AbstractController
 
             return $this->redirectToRoute('app_default');
         }
+        $user2 = $this->getUser();
+        $cart = $cartRepository->findOneBy(['User' => $user2]);
 
+        if (!$cart) {
+            $cartItemCount = 0;
+        } else {
+            $cartItemCount = $cart->getCartLines()->count();
+        }
         return $this->render('registration/register.html.twig', [
-            'registrationForm' => $form,
+            'form' => $form,
+            'cartItemCount' => $cartItemCount,
+            'categories' => $categoryRepository->findAll(),
         ]);
     }
 }

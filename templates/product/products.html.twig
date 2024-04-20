@@ -12,8 +12,11 @@
 					<div
 						class="card h-100">
 						<!-- Product image-->
-						<img
-						class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..."/>
+						{% if product.img %}
+							<img class="card-img-top" src="/uploads/{{ product.img }}" width="30" height="150"/>
+						{% else %}
+							<img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..."/>
+						{% endif %}
 						<!-- Product details-->
 						<div class="card-body p-4">
 							<div
@@ -30,13 +33,14 @@
 								</div>
 								<!-- Product price-->
 								{{ product.PriceHT }}€
-                                <div class="mt-2"> {{ product.Description }}</div>
+								<div class="mt-2">
+									{{ product.Description }}</div>
 							</div>
 						</div>
 						<!-- Product actions-->
 						<div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
 							<div class="text-center">
-								<a class="btn btn-outline-dark mt-auto" href="#">Ajouter au panier</a>
+								<a class="btn btn-outline-dark mt-auto" href="/cart/add/{{product.id}}">Ajouter au panier</a>
 							</div>
 						</div>
 					</div>
@@ -45,39 +49,4 @@
 		</div>
 
 	</div>
-	{# <h1>Product index</h1>
-	
-	    <table class="table">
-	        <thead>
-	            <tr>
-	                <th>Id</th>
-	                <th>Name</th>
-	                <th>Description</th>
-	                <th>PriceHT</th>
-	                <th>Available</th>
-	                <th>actions</th>
-	            </tr>
-	        </thead>
-	        <tbody>
-	        {% for product in products %}
-	            <tr>
-	                <td>{{ product.id }}</td>
-	                <td>{{ product.Name }}</td>
-	                <td>{{ product.Description }}</td>
-	                <td>{{ product.PriceHT }}</td>
-	                <td>{{ product.Available ? 'Yes' : 'No' }}</td>
-	                <td>
-	                    <a href="{{ path('app_product_show', {'id': product.id}) }}">show</a>
-	                    <a href="{{ path('app_product_edit', {'id': product.id}) }}">edit</a>
-	                </td>
-	            </tr>
-	        {% else %}
-	            <tr>
-	                <td colspan="6">no records found</td>
-	            </tr>
-	        {% endfor %}
-	        </tbody>
-	    </table>
-	
-	    <a href="{{ path('app_product_new') }}">Create new</a>  #}
 {% endblock %}

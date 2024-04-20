@@ -1,38 +1,51 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Product{% endblock %}
+{% block title %}Product
+{% endblock %}
 
-{% block body %}
-    <h1>Product</h1>
+{% block admin %}
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ product.id }}</td>
-            </tr>
-            <tr>
-                <th>Name</th>
-                <td>{{ product.Name }}</td>
-            </tr>
-            <tr>
-                <th>Description</th>
-                <td>{{ product.Description }}</td>
-            </tr>
-            <tr>
-                <th>PriceHT</th>
-                <td>{{ product.PriceHT }}</td>
-            </tr>
-            <tr>
-                <th>Available</th>
-                <td>{{ product.Available ? 'Yes' : 'No' }}</td>
-            </tr>
-        </tbody>
-    </table>
 
-    <a href="{{ path('app_product_index') }}">back to list</a>
+	<h1>Product</h1>
 
-    <a href="{{ path('app_product_edit', {'id': product.id}) }}">edit</a>
+	<table class="table">
+		<tbody>
+			<tr>
+				<th>Id</th>
+				<td>{{ product.id }}</td>
+			</tr>
+			<tr>
+				<th>Name</th>
+				<td>{{ product.Name }}</td>
+			</tr>
+			<tr>
+				<th>Description</th>
+				<td>{{ product.Description }}</td>
+			</tr>
+			<tr>
+				<th>PriceHT</th>
+				<td>{{ product.PriceHT }}</td>
+			</tr>
+			<tr>
+				<th>Available</th>
+				<td>{{ product.Available ? 'Yes' : 'No' }}</td>
+			</tr>
+			<tr>
+				<th>img</th>
+				{% if product.img %}
+                <td><img src="{{ asset('uploads/' ~ product.img) }}" alt="Product Image"></td>
+				{% else %}
+					<td>Pas d'image disponible</td>
+				{% endif %}
+				
+			</tr>
 
-    {{ include('product/_delete_form.html.twig') }}
+		</tbody>
+	</table>
+
+	<a href="{{ path('app_product_index') }}">back to list</a>
+
+	<a href="{{ path('app_product_edit', {'id': product.id}) }}">edit</a>
+
+	{{ include('product/_delete_form.html.twig') }}
 {% endblock %}
