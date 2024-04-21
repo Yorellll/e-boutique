@@ -1,8 +1,10 @@
 # Projet e-boutique en Symfony
 
+Lien GitHub du projet : [Projet E-boutique](https://github.com/Yorellll/e-boutique)
+
 Réalisation d'une e-boutique commercialisant des voyages et activités. Cette application a été développé en Symfony et Bootstrap par Leo Leroy et Laura Kokonyange-Nkasei dans le cadre d'un projet de groupe en Licence professionnel.
 
-L'application est disponible via ce lien : leroy.alwaysdata.net
+L'application est disponible via ce lien : [e-boutique](leroy.alwaysdata.net)
 
 ## Fonctionnalités
 
