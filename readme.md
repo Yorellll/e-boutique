@@ -47,7 +47,7 @@ L'application est disponible via ce lien : [e-boutique](https://leroy.alwaysdata
 - **Gestion des utilisateurs**
     - État : OK
     - Les utilisateurs peuvent modifier leurs informations de base (email, nom, prénom, téléphone, etc.) après s'être connectés à leur compte.
-    - Les administrateurs peuvent gérer l'ensemble des utilisateurs : créer des utilisateurs,modifier leur informations et supprimer des utilisateurs.
+    - Les administrateurs peuvent gérer l'ensemble des utilisateurs : créer des utilisateurs, modifier leurs informations et supprimer des utilisateurs.
 
 - **Gestion des commandes**
     - État : OK
