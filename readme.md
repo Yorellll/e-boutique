@@ -2,7 +2,7 @@
 
 Réalisation d'une e-boutique commercialisant des voyages et activités. Cette application a été développé en Symfony et Bootstrap par Leo Leroy et Laura Kokonyange-Nkasei dans le cadre d'un projet de groupe en Licence professionnel.
 
-L'application est disponible via ce lien : (on le mettra une fois le projet deployé)
+L'application est disponible via ce lien : leroy.alwaysdata.net
 
 ## Fonctionnalités
 
