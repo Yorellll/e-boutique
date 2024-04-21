@@ -65,29 +65,23 @@ class ProductController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // Gérer le fichier uploadé
             $imgFile = $form->get('img')->getData();
 
             if ($imgFile) {
-                // Donnez un nom unique au fichier
                 $newFilename = uniqid() . '.' . $imgFile->guessExtension();
 
-                // Déplacez le fichier vers le répertoire où vous souhaitez stocker les images
                 try {
                     $imgFile->move(
                         $this->getParameter('img_directory'),
                         $newFilename
                     );
                 } catch (FileException $e) {
-                    // Gérer l'exception si le déplacement du fichier échoue
-                    // Par exemple, enregistrer l'erreur dans des logs
+
                 }
 
-                // Mettez à jour le champ 'img' pour stocker le nom du fichier dans la base de données
                 $product->setImg($newFilename);
             }
 
-            // Enregistrer le produit en base de données
             $entityManager->persist($product);
             $entityManager->flush();
 
@@ -139,25 +133,19 @@ class ProductController extends AbstractController
             $imgFile = $form->get('img')->getData();
 
             if ($imgFile) {
-                // Donnez un nom unique au fichier
                 $newFilename = uniqid() . '.' . $imgFile->guessExtension();
 
-                // Déplacez le fichier vers le répertoire où vous stockez les images
                 try {
                     $imgFile->move(
                         $this->getParameter('img_directory'),
                         $newFilename
                     );
                 } catch (FileException $e) {
-                    // Gérer l'exception si le déplacement du fichier échoue
-                    // Par exemple, enregistrer l'erreur dans des logs
                 }
 
-                // Mettez à jour le champ 'img' pour stocker le nom du fichier dans la base de données
                 $product->setImg($newFilename);
             }
 
-            // Enregistrez les modifications du produit en base de données
             $entityManager->flush();
 
             return $this->redirectToRoute('app_product_index', [], Response::HTTP_SEE_OTHER);
@@ -203,10 +191,16 @@ class ProductController extends AbstractController
 
         $products = $productRepository->findBy(['category' => $category]);
 
+        $categoryInfos = [
+            'name' => $category->getName(),
+            'description' => $category->getDescription(),
+        ];
+
         return $this->render('product/products_by_category.html.twig', [
             'products' => $products,
             'cartItemCount' => $cartItemCount,
             'categories' => $categoryRepository->findAll(),
+            'categoryInfos' => $categoryInfos,
         ]);
     }
 }

@@ -6,11 +6,15 @@
 {% block products %}
 
 	<div class="container px-4 px-lg-5 mt-5">
+		<h2 class="section-heading mb-2 text-center">
+			<span class="section-heading-lower">Toutes nos offres</span>
+		</h2>
+		<p class="fw-bold mb-4 text-center">Découvrez des expériences inoubliables à travers le monde ! Parcourez notre sélection complète d'offres pour vivre des aventures uniques</p>
 		<div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
 			{% for product in products %}
 				<div class="col mb-5">
 					<div
-						class="card h-100">
+							class="card h-100">
 						<!-- Product image-->
 						{% if product.img %}
 							<img class="card-img-top" src="/uploads/{{ product.img }}" width="30" height="150"/>
@@ -20,7 +24,7 @@
 						<!-- Product details-->
 						<div class="card-body p-4">
 							<div
-								class="text-center">
+									class="text-center">
 								<!-- Product name-->
 								<h5 class="fw-bolder">{{ product.Name }}</h5>
 								<!-- Product reviews-->

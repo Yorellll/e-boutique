@@ -72,7 +72,7 @@ class Category
     {
         if (!$this->products->contains($product)) {
             $this->products[] = $product;
-            $product->setCategory($this); // Met à jour la relation dans l'autre sens
+            $product->setCategory($this);
         }
 
         return $this;
@@ -81,7 +81,6 @@ class Category
     public function removeProduct(Product $product): self
     {
         if ($this->products->removeElement($product)) {
-            // Supprime la relation dans l'autre sens si nécessaire
             if ($product->getCategory() === $this) {
                 $product->setCategory(null);
             }

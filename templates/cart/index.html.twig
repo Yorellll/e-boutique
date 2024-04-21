@@ -2,37 +2,44 @@
 
 {% block admin %}
     <div class="container mt-4">
+        {% for message in app.flashes('error') %}
+            <div class="alert alert-danger" role="alert">
+                {{ message }}
+            </div>
+        {% endfor %}
         <h1>Votre Panier</h1>
         <div class="row">
             <div class="col-md-8">
                 <form action="{{ path("update_cart") }}" method="post">
                     <table class="table">
                         <thead>
-                            <tr>
-                                <th>Produit</th>
-                                <th>Prix unitaire</th>
-                                <th>Total</th>
-                                <th>Quantité</th>
-                                <th>Action</th>
-                            </tr>
+                        <tr>
+                            <th>Produit</th>
+                            <th>Prix unitaire</th>
+                            <th>Total</th>
+                            <th>Quantité</th>
+                            <th>Action</th>
+                        </tr>
                         </thead>
                         <tbody>
-                            {% set totalCart = 0 %}
-                            {% for cartLine in cart.getCartLines() %}
-                                <tr>
-                                    <td>{{ cartLine.product.name }}</td>
-                                    <td>{{ cartLine.product.priceHT }} €</td>
-                                    <td>{{ cartLine.product.priceHT * cartLine.quantity }} €</td>
-                                    {% set totalCart = totalCart + cartLine.product.priceHT * cartLine.quantity %}
-                                    <td>
-                                        <input type="number" name="qty_{{ cartLine.id }}" value="{{ cartLine.quantity }}" class="form-control">
-                                    </td>
-                                    <td>
-                                        <button type="submit" name="updateQtt" value="{{ cartLine.id }}" class="btn btn-outline-dark">Mettre à jour</button>
-                                        <button type="submit" name="deleteCartLine" value="{{ cartLine.id }}" class="btn btn-danger">Supprimer</button>
-                                    </td>
-                                </tr>
-                            {% endfor %}
+                        {% set totalCart = 0 %}
+                        {% for cartLine in cart.getCartLines() %}
+                            <tr>
+                                <td>{{ cartLine.product.name }}</td>
+                                <td>{{ cartLine.product.priceHT }}
+                                    €</td>
+                                <td>{{ cartLine.product.priceHT * cartLine.quantity }}
+                                    €</td>
+                                {% set totalCart = totalCart + cartLine.product.priceHT * cartLine.quantity %}
+                                <td>
+                                    <input type="number" name="qty_{{ cartLine.id }}" value="{{ cartLine.quantity }}" class="form-control">
+                                </td>
+                                <td>
+                                    <button type="submit" name="updateQtt" value="{{ cartLine.id }}" class="btn btn-outline-dark">Mettre à jour</button>
+                                    <button type="submit" name="deleteCartLine" value="{{ cartLine.id }}" class="btn btn-danger">Supprimer</button>
+                                </td>
+                            </tr>
+                        {% endfor %}
                         </tbody>
                     </table>
                 </form>
@@ -41,7 +48,9 @@
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title">Résumé du Panier</h5>
-                        <p class="card-text">Total panier : {{ totalCart }} €</p>
+                        <p class="card-text">Total panier :
+                            {{ totalCart }}
+                            €</p>
                         <form action="{{ path("commande") }}">
                             <button type="submit" class="btn btn-dark">Passer Commande</button>
                         </form>

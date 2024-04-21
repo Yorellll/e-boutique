@@ -29,9 +29,6 @@ class Cart
     #[ORM\OneToMany(targetEntity: CartLine::class, mappedBy: 'CartId', cascade: ['persist', 'remove'])]
     private Collection $cartLines;
 
-//    #[ORM\OneToOne(targetEntity: Order::class, mappedBy: 'cart')]
-//    private ?Order $order;
-
     #[ORM\OneToMany(targetEntity: Order::class, mappedBy: 'cart')]
     private Collection $orders;
 

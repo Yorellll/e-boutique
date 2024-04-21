@@ -21,14 +21,14 @@ class ProductType extends AbstractType
             ->add('Available')
             ->add('img', FileType::class, [
                 'label' => 'Image',
-                'mapped' => false, // Ne mappez pas directement ce champ à l'entité Product
-                'required' => false, // Le champ n'est pas obligatoire
+                'mapped' => false,
+                'required' => false,
             ])
             ->add('category', EntityType::class, [
-                'class' => Category::class, // Chemin de votre entité Category
-                'label' => 'Catégorie', // Étiquette du champ "Catégorie"
-                'choice_label' => 'name', // Champ de l'entité Category à afficher dans la liste déroulante
-                'placeholder' => 'Choisissez une catégorie', // Texte de l'option vide
+                'class' => Category::class,
+                'label' => 'Catégorie',
+                'choice_label' => 'name',
+                'placeholder' => 'Choisissez une catégorie',
             ]);
         ;
     }
