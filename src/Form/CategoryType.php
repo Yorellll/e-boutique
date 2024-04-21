@@ -15,10 +15,10 @@ class CategoryType extends AbstractType
     {
         $builder
             ->add('name', TextType::class, [
-                'label' => 'Nom' // Étiquette du champ "nom"
+                'label' => 'Nom'
             ])
             ->add('description', TextType::class, [
-                'label' => 'Description' // Étiquette du champ "description"
+                'label' => 'Description'
             ]);
     }
 
@@ -26,7 +26,7 @@ class CategoryType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Category::class, // Classe de l'entité associée au formulaire
+            'data_class' => Category::class,
         ]);
     }
 }

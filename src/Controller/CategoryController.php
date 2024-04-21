@@ -140,10 +140,10 @@ class CategoryController extends AbstractController
         }
 
         return $this->render('product/categories.html.twig', [
-            'controller_name' => 'CategoryController', // Peut-être à adapter
-            'tab' => [], // Peut-être à récupérer selon votre besoin
+            'controller_name' => 'CategoryController',
+            'tab' => [],
             'categ' => $category,
-            'products' => $category->getProducts(), // Assurez-vous que cette méthode existe dans votre entité Category
+            'products' => $category->getProducts(),
             'cartItemCount' => $cartItemCount,
             'categories' => $categoryRepository->findAll(),
         ]);

@@ -53,7 +53,7 @@ class OrderController extends AbstractController
         $order = $user->getOrders();
         $orderId = $request->query->get('orderId');
         $currentOrder = new Order();
-        $cart = $cartRepository->findOneBy(['User' => $user]); // Trouver le panier de l'utilisateur connecté
+        $cart = $cartRepository->findOneBy(['User' => $user]);
         $user = $this->getUser();
         $cart = $cartRepository->findOneBy(['User' => $user]);
 

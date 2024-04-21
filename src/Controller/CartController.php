@@ -29,7 +29,7 @@ class CartController extends AbstractController
     #[Route('/cart', name: 'cart_index', methods: ['GET'])]
     public function index(CartRepository $cartRepository,CategoryRepository $categoryRepository): Response
     {
-        $user = $this->getUser(); // Récupérer l'utilisateur connecté
+        $user = $this->getUser();
         $cart = $cartRepository->findOneBy(['User' => $user]); // Trouver le panier de l'utilisateur connecté
         $user = $this->getUser();
         $cart = $cartRepository->findOneBy(['User' => $user]);
@@ -55,8 +55,7 @@ class CartController extends AbstractController
     #[Route('/cart/add/{productId}', name: 'cart_add_product', methods: ['GET', 'POST'])]
     public function addToCart(Request $request, $productId, EntityManagerInterface $entityManager, CartRepository $cartRepository): Response
     {
-        $user = $this->getUser(); // Récupérer l'utilisateur connecté
-//        $cart = $user->getUserCart(); // Récupérer le panier de l'utilisateur
+        $user = $this->getUser();
         $cart = $cartRepository->findOneBy(['User' => $user]);
       
 
@@ -69,9 +68,6 @@ class CartController extends AbstractController
         if (!$user) {
             return $this->redirectToRoute('app_login');
         }
-
-        // Votre logique pour ajouter un produit au panier ici
-        // Vous pouvez utiliser $productId pour récupérer le produit à ajouter
         $product = $entityManager->getRepository(Product::class)->find($productId);
 
         if (!$product) {
@@ -86,7 +82,6 @@ class CartController extends AbstractController
 
         $cart->updateTotal();
 
-        // Sauvegarder les modifications
         $entityManager->persist($cart);
         $entityManager->flush();
 
@@ -110,11 +105,9 @@ class CartController extends AbstractController
         $productQty = $request->request->get('qty_'.$productUpdateId);
         if ($productUpdateId) {
             if ($cart === null) {
-                // Page pour dire que le panier est vide qui n'existe pas encore
                 return $this->redirectToRoute('cart_empty');
             }
 
-            // Parcourir les lignes de panier et mettre à jour les quantités
             foreach ($cart->getCartLines() as $cartLine) {
                 if ($cartLine->getId() == $productUpdateId) {
                     $cartLine->setQuantity($productQty);
@@ -148,18 +141,23 @@ class CartController extends AbstractController
         $user = $this->getUser();
         $cart = $user->getUserCart();
 
+
+        if ($cart->getCartLines()->isEmpty()) {
+            $this->addFlash('error', 'Votre panier est vide. Veuillez ajouter des produits avant de passer une commande.');
+            return $this->redirectToRoute('cart_index');
+        }
         $order = new Order();
         $order->setCart($cart);
         $orderNumb = $user->getOrders();
         $date = new \DateTime();
         $order->setDateTime($date);
-        $order->setOrderNumber(count($orderNumb)+1);
+        $order->setOrderNumber(count($orderNumb) + 1);
 
         $order->setValid(true);
 
         $order->setUser($user);
 
-        foreach ($cart->getCartLines() as $line){
+        foreach ($cart->getCartLines() as $line) {
             $commandLine = new CommandLine();
             $commandLine->setQuantity($line->getQuantity());
 
@@ -176,7 +174,7 @@ class CartController extends AbstractController
         $entityManager->flush();
 
 
-        return $this->redirectToRoute('order_final',['orderId' => $order->getId()] );
+        return $this->redirectToRoute('order_final', ['orderId' => $order->getId()]);
     }
 
 
